@@ -1,13 +1,10 @@
 """test interpolation functions."""
 
-import geopandas
 import pytest
 from astropy.utils.exceptions import AstropyUserWarning
-from libpysal.examples import load_example
 from numpy.testing import assert_almost_equal
 
 from tobler.pycno import pycno_interpolate
-
 
 astropy_warning = pytest.warns(
     AstropyUserWarning,
@@ -17,6 +14,7 @@ astropy_warning = pytest.warns(
         "size, are present in the input array."
     ),
 )
+
 
 def test_pycno_interpolate(datasets):
     sac1, sac2 = datasets

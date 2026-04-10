@@ -31,10 +31,10 @@ def _index_n_query(geoms1, geoms2):
         large = geoms2
         small = geoms1
     # Build tree + query
-    qry_polyIDs, tree_polyIDs = large.sindex.query(small, predicate="intersects")
+    qry_poly_ids, tree_poly_ids = large.sindex.query(small, predicate="intersects")
     # Remap IDs to global
-    large_global_ids = large.iloc[tree_polyIDs].index.values
-    small_global_ids = small.iloc[qry_polyIDs].index.values
+    large_global_ids = large.iloc[tree_poly_ids].index.values
+    small_global_ids = small.iloc[qry_poly_ids].index.values
     # Return always global IDs for geoms1, geoms2
     if geoms1.shape[0] > geoms2.shape[0]:
         return np.array([large_global_ids, small_global_ids]).T
@@ -212,7 +212,7 @@ def area_interpolate(
     n_jobs=1,
     categorical_variables=None,
     categorical_frequency=True,
-    fill_nan=0.0
+    fill_nan=0.0,
 ):
     """
     Area interpolation for extensive, intensive and categorical variables.
@@ -258,11 +258,11 @@ def area_interpolate(
         area). If False, `estimates` contains the area in every polygon of `target_df`
         that is occupied by each value of the categorical
     fill_nan : numeric, str, or None
-        [Optional. Default=0.0] Value to replace NaN values in the source variables. 
-        If None, NaN values are not replaced and will propagate through the interpolation.
-        If a string is passed, it should be one of 'mean', 'median', 'max', or 'min',
-        and NaN values will be replaced with the corresponding aggregate value from the
-        source variable.
+        [Optional. Default=0.0] Value to replace NaN values in the source variables.
+        If None, NaN values are not replaced and will propagate through the
+        interpolation. If a string is passed, it should be one of 'mean', 'median',
+        'max', or 'min', and NaN values will be replaced with the corresponding
+        aggregate value from the source variable.
 
     Returns
     -------
