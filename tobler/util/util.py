@@ -270,3 +270,16 @@ def _to_hex(source, resolution=6, return_geoms=True):
     )
 
     return hexs
+
+
+# Functions that appends a "Type_" suffix on any column that has a number as variable name
+def _rename_type(df):
+    res = df.rename(
+    columns=lambda col: (
+        f"Type_{int(pandas.to_numeric(col))}"
+        if not isinstance(col, bool)
+        and pandas.notna(pandas.to_numeric(col, errors="coerce"))
+        and float(pandas.to_numeric(col)).is_integer()
+        else col
+    ))
+    return res
