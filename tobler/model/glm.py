@@ -164,8 +164,7 @@ def glm(
           .sum()
     )
     
-    # Append these estimates into the original target geopandas ;)
-    
+    # Append these estimates into the original target geopandas
     interpolated = target_df.\
         merge(sum_by_target, 
               on="target_id", 
