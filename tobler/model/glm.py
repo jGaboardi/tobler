@@ -81,18 +81,19 @@ def glm(
 
     if not pixel_values:
         pixel_values = [21, 22, 23, 24, 41, 42, 52]
-    pixel_values = ["Type_" + str(i) for i in pixel_values]
+    pixel_values_str = ["Type_" + str(i) for i in pixel_values]
 
     if not formula:
         formula = (
             variable
             + "~ -1 +"
-            + " + ".join([code for code in pixel_values])
+            + " + ".join([code for code in pixel_values_str])
         )
 
     #  create a vector mask from the raster data
+    # Pass collapse_values=False to obtain each pixel type
     raster_mask = extract_raster_features(
-        source_df, raster, pixel_values, nodata, n_jobs, collapse_values=True
+        source_df, raster, pixel_values, nodata, n_jobs, collapse_values=False
     )
     
     raster_mask = raster_mask.copy()
