@@ -5,7 +5,7 @@ import statsmodels.formula.api as smf
 from statsmodels.genmod.families import Gaussian, NegativeBinomial, Poisson
 
 from ..util.util import _check_presence_of_crs, _rename_type
-from .raster_tools import extract_raster_features
+from ..dasymetric import extract_raster_features
 
 __all__ = ["glm"]
 
