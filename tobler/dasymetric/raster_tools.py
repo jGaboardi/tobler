@@ -34,50 +34,6 @@ def _apply_parser(df):
     return df.apply(_parse_geom)
 
 
-def _fast_append_profile_in_gdf(geodataframe, raster_path, force_crs_match=True):
-    """Append categorical zonal statistics (counts by pixel type)
-    as columns to an input geodataframe.
-
-    Parameters
-    ----------
-    geodataframe : geopandas.GeoDataFrame
-        geodataframe that has overlay with the raster. If some polygon do
-        not overlay the raster, consider a preprocessing step using the function
-        subset_gdf_polygons_from_raster.
-    raster_path : str
-        path to the raster image.
-    force_crs_match : bool, Default is True.
-        Whether the Coordinate Reference System (CRS) of the polygon will be reprojected
-        to the CRS of the raster file. It is recommended to let this argument as True.
-
-    Notes
-    -----
-    The generated geodataframe will input the value 0 for each Type that
-    is not present in the raster for each polygon.
-    """
-
-    _check_presence_of_crs(geodataframe)
-    if force_crs_match:
-        with rio.open(raster_path) as raster:
-            geodataframe = geodataframe.to_crs(crs=raster.crs.data)
-    else:
-        warnings.warn(
-            "The GeoDataFrame is not being reprojected. "
-            "The clipping might be being performing on "
-            "unmatching polygon to the raster.",
-            UserWarning,
-            stacklevel=2,
-        )
-
-    zonal_gjson = rs.zonal_stats(
-        geodataframe, raster_path, prefix="Type_", geojson_out=True, categorical=True
-    )
-
-    zonal_ppt_gdf = gpd.GeoDataFrame.from_features(zonal_gjson)
-
-    return zonal_ppt_gdf
-
-
 def extract_raster_features(
     gdf, raster_path, pixel_values=None, nodata=255, n_jobs=-1, collapse_values=False
 ):
