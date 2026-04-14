@@ -2,19 +2,15 @@
 
 import ast
 import multiprocessing
-import warnings
 
 import geopandas as gpd
 import numpy as np
 import pandas as pd
 import rasterio as rio
-import rasterstats as rs
 from joblib import Parallel, delayed
 from rasterio import features
 from rasterio.mask import mask
 from shapely.geometry import shape
-
-from ..util.util import _check_presence_of_crs
 
 __all__ = ["extract_raster_features"]
 
