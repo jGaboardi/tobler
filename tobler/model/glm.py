@@ -74,7 +74,7 @@ def glm(
         a new geopandas dataframe with boundaries from `target_df` and modeled
         attribute data from the `source_df`. If `return_model` is true, the
         function will also return the fitted regression model for further diagnostics
-        The new geopandas will present a column named "GLM_PRED_" + extensive_variable
+        The new geopandas will present a column named given by extensive_variable
     """
 
     if force_crs_match is not None:
@@ -207,8 +207,11 @@ def glm(
 
     # Append these estimates into the original target geopandas
     interpolated = target_df.merge(sum_by_target, on="target_id", how="inner").rename(
-        columns={"pred_variable_on_pixel_wa": "GLM_PRED_" + extensive_variable}
+        columns={"pred_variable_on_pixel_wa": extensive_variable}
     )
+    
+    # Return only relevant columns
+    interpolated = interpolated[['geometry', extensive_variable]]
 
     if return_model:
         return interpolated, results_regression
