@@ -218,9 +218,9 @@ def glm(
     interpolated = target_df.merge(sum_by_target, on="target_id", how="inner").rename(
         columns={"pred_variable_on_pixel_wa": extensive_variable}
     )
-    
+
     # Return only relevant columns
-    interpolated = interpolated[['geometry', extensive_variable]]
+    interpolated = interpolated[["geometry", extensive_variable]]
 
     if return_model:
         return interpolated, results_regression
