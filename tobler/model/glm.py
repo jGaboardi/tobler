@@ -5,7 +5,7 @@ import warnings
 import geopandas as gpd
 import numpy as np  # noqa: F401 -- needed for numpy's logarithm in the formula string
 import statsmodels.formula.api as smf
-from statsmodels.genmod.families import Gaussian, NegativeBinomial, Poisson
+from statsmodels.genmod.families import NegativeBinomial, Poisson
 
 from ..dasymetric import extract_raster_features
 from ..util.util import _check_presence_of_crs, _rename_type
@@ -106,6 +106,8 @@ def glm(
     raster_mask = extract_raster_features(
         source_df, raster, pixel_values, nodata, n_jobs, collapse_values=False
     )
+    
+    raster_mask = raster_mask.to_crs(source_df.crs)
 
     raster_mask = raster_mask.copy()
 
@@ -120,19 +122,24 @@ def glm(
             source_df[["source_id", "geometry"]],
             how="intersection",
         )
-        .dissolve("mask_id")
-        .reset_index()
     )
 
-    # Count how many intersected pieces of each category fall in each source polygon
-    source_counts = (
-        source_intersections.groupby(["source_id", "value"])
-        .size()
-        .unstack(fill_value=0)
-        .reset_index()
-    )
+    # Since each intersection is only comprised of a single value, 
+    # The logic will be adjusted to the area (instead of counts) 
+    # of each pixel type
+    
+    # Area of intersected pieces of each category fall in each source polygon
+    
+    source_intersections["area"] = source_intersections.geometry.area
+    
+    area_by_source_id_values = (
+        source_intersections.groupby(["source_id", "value"])["area"]
+            .sum()
+            .unstack(fill_value=0)
+            .reset_index()
+)
 
-    source_result = source_df.merge(source_counts, on="source_id", how="left").fillna(0)
+    source_result = source_df.merge(area_by_source_id_values, on="source_id", how="left").fillna(0)
     source_result = _rename_type(source_result)
     results_regression = smf.glm(
         formula, data=source_result, family=liks[likelihood]()
@@ -170,34 +177,36 @@ def glm(
         source_intersections_2[extensive_variable]
         / source_intersections_2["pred_variable_on_source_id_raw"]
     )
+    
+    # Predictions should be adjusted by area instead of pixels (appends "_wa")
+    # "wa" stands for weighted area
+    source_intersections_2["area"] = source_intersections_2.geometry.area
+    source_intersections_2["pred_variable_on_pixel_wa"] = source_intersections_2["pred_variable_on_pixel"] * source_intersections_2["area"]
 
     # Intersect the two layers (target + raster)
-    target_intersections = (
-        gpd.overlay(
-            raster_mask[["mask_id", "geometry"]],
-            target_df[["target_id", "geometry"]],
-            how="intersection",
-        )
-        .dissolve("mask_id")
-        .reset_index()
-    )
+    target_intersections = gpd.overlay(
+        raster_mask[["mask_id", "geometry"]],
+        target_df[["target_id", "geometry"]],
+        how="intersection"
+    ).dissolve("mask_id").reset_index() # Dissolve here is only to get unique mask_ids (a drop_duplicates would work as well)
 
     # Recover pixel estimated population for each mask id within every target id
-    target_intersections_2 = target_intersections.merge(
-        source_intersections_2[["mask_id", "pred_variable_on_pixel"]],
-        on="mask_id",
-        how="inner",
-    )
+    # Use the weighted variable!
+    target_intersections_2 = target_intersections.\
+        merge(source_intersections_2[['mask_id', 'pred_variable_on_pixel_wa']], 
+              on="mask_id", 
+              how="inner")
 
-    # Sum the weights for each target polygon to get
-    # the estimated population with pycnophylactic property
-    sum_by_target = target_intersections_2.groupby("target_id", as_index=False)[
-        "pred_variable_on_pixel"
-    ].sum()
+    # Sum the weights for each target polygon to get the estimated population with pycnophylactic property
+    # Use the weighted variable!
+    sum_by_target = (
+        target_intersections_2.groupby("target_id", as_index=False)["pred_variable_on_pixel_wa"]
+          .sum()
+    )
 
     # Append these estimates into the original target geopandas
     interpolated = target_df.merge(sum_by_target, on="target_id", how="inner").rename(
-        columns={"pred_variable_on_pixel": "GLM_PRED_" + extensive_variable}
+        columns={"pred_variable_on_pixel_wa": "GLM_PRED_" + extensive_variable}
     )
 
     if return_model:
