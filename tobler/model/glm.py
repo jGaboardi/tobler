@@ -18,7 +18,7 @@ def glm(
     target_df=None,
     raster="nlcd_2011",
     pixel_values=None,
-    variable=None,
+    extensive_variable=None,
     formula=None,
     likelihood="poisson",
     return_model=False,
@@ -46,13 +46,13 @@ def glm(
         is given, the model will be fit from a linear combination of the logged count
         of each cell type listed here. Defaults to [21, 22, 23, 24, 41, 42, 52] which
         are informative land type cells from the NLCD
-    variable : str, required
-        name of the variable (column) to be modeled from the `source_df`
+    extensive_variable : str, required
+        name of the variable (column) to be modeled from the `source_df`.
     formula : str, optional
         patsy-style model formula that specifies the model. Raster codes should be
         prefixed with "Type_", e.g.
         `"n_total_pop ~ -1 + Type_21 + Type_22`
-    likelihood : str, {'poisson', 'gaussian', 'neg_binomial'} (default = "poisson")
+    likelihood : str, {'poisson', 'neg_binomial'} (default = "poisson")
         the likelihood function used in the model
     return model : bool
         whether to return the fitted model in addition to the interpolated geodataframe.
@@ -73,7 +73,7 @@ def glm(
         a new geopandas dataframe with boundaries from `target_df` and modeled
         attribute data from the `source_df`. If `return_model` is true, the
         function will also return the fitted regression model for further diagnostics
-        The new geopandas will present a column named "GLM_PRED_" + variable
+        The new geopandas will present a column named "GLM_PRED_" + extensive_variable
     """
 
     if force_crs_match is not None:
@@ -89,7 +89,7 @@ def glm(
     source_df = source_df.copy()
     target_df = target_df.copy()
     _check_presence_of_crs(source_df)
-    liks = {"poisson": Poisson, "gaussian": Gaussian, "neg_binomial": NegativeBinomial}
+    liks = {"poisson": Poisson, "neg_binomial": NegativeBinomial}
 
     if likelihood not in liks:
         raise ValueError(f"likelihood must one of {liks.keys()}")
@@ -99,7 +99,7 @@ def glm(
     pixel_values_str = ["Type_" + str(i) for i in pixel_values]
 
     if not formula:
-        formula = variable + "~ -1 +" + " + ".join(list(pixel_values_str))
+        formula = extensive_variable + "~ -1 +" + " + ".join(list(pixel_values_str))
 
     #  create a vector mask from the raster data
     # Pass collapse_values=False to obtain each pixel type
@@ -148,7 +148,7 @@ def glm(
     # Append source predictions and original
     # variable for the pycnophylactic property step
     source_intersections_2 = source_intersections.merge(
-        source_result[["source_id", variable, "pred_variable_on_source_id_raw"]],
+        source_result[["source_id", extensive_variable, "pred_variable_on_source_id_raw"]],
         on="source_id",
         how="left",
     ).fillna(0)
@@ -167,7 +167,7 @@ def glm(
     source_intersections_2["pred_variable_on_pixel"] = source_intersections_2[
         "type_coef"
     ] * (
-        source_intersections_2[variable]
+        source_intersections_2[extensive_variable]
         / source_intersections_2["pred_variable_on_source_id_raw"]
     )
 
@@ -197,7 +197,7 @@ def glm(
 
     # Append these estimates into the original target geopandas
     interpolated = target_df.merge(sum_by_target, on="target_id", how="inner").rename(
-        columns={"pred_variable_on_pixel": "GLM_PRED_" + variable}
+        columns={"pred_variable_on_pixel": "GLM_PRED_" + extensive_variable}
     )
 
     if return_model:
