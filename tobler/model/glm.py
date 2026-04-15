@@ -48,6 +48,7 @@ def glm(
         are informative land type cells from the NLCD
     extensive_variable : str, required
         name of the variable (column) to be modeled from the `source_df`.
+        Currently, only one extensive variable is available.
     formula : str, optional
         patsy-style model formula that specifies the model. Raster codes should be
         prefixed with "Type_", e.g.
