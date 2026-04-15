@@ -198,7 +198,7 @@ def glm(
         )
         .dissolve("mask_id")
         .reset_index()
-    )  # Dissolve here is only to get unique mask_ids (a drop_duplicates would work as well)
+    )  # Dissolve here is only to get unique mask_ids
 
     # Recover pixel estimated population for each mask id within every target id
     # Use the weighted variable!
@@ -208,7 +208,8 @@ def glm(
         how="inner",
     )
 
-    # Sum the weights for each target polygon to get the estimated population with pycnophylactic property
+    # Sum the weights for each target polygon to get the 
+    # estimated population with pycnophylactic property
     # Use the weighted variable!
     sum_by_target = target_intersections_2.groupby("target_id", as_index=False)[
         "pred_variable_on_pixel_wa"
