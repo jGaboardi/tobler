@@ -208,7 +208,7 @@ def glm(
         how="inner",
     )
 
-    # Sum the weights for each target polygon to get the 
+    # Sum the weights for each target polygon to get the
     # estimated population with pycnophylactic property
     # Use the weighted variable!
     sum_by_target = target_intersections_2.groupby("target_id", as_index=False)[
