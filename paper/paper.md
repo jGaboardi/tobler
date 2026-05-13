@@ -28,6 +28,10 @@ authors:
   orcid: "0000-0002-4776-6826"
   equal-contrib: true
   affiliation: 5
+- name: Daniel Arribas-Bel
+  orcid: "0000-0002-6274-1619"
+  equal-contrib: true
+  affiliation: 6
 bibliography: paper.bib
 affiliations:
 - name: University of California, Irvine
@@ -40,6 +44,8 @@ affiliations:
   index: 4
 - name: Geospatial Science and Human Security, Oak Ridge National Laboratory
   index: 5
+- name: University of Liverpool
+  index: 6
 ---
 
 <!--
@@ -87,18 +93,22 @@ In the Python ecosystem, prior to `tobler`, support for areal interpolation was 
 * A coherent and well-documented API for areal interpolation
 * Native integration with GeoPandas and the broader PySAL ecosystem
 * Support for multiple interpolation paradigms, including area-weighted, dasymetric, and model-based approaches
-* A focus on reproducibility, allowing interpolation workflows to be scripted, version-controlled, and shared
+* A focus on reproducibility, allowing for version controlled and shared interpolation workflows.
 
 These capabilities make `tobler` particularly valuable for researchers and practitioners in fields such as geography, urban planning, public health, environmental science, and regional economics, where spatial data integration is a routine requirement.
 
 # State of the field
 
-`tobler` is a component of the PySAL ecosystem, which provides a comprehensive suite of tools for spatial analysis in Python. Within this ecosystem:
+`tobler` is a component of the PySAL ecosystem, which provides a comprehensive suite of tools for spatial analysis in Python. This ecosystem consists of four layers of related packages:
 
 * `libpysal` provides spatial weights, data structures, and foundational utilities
-* `esda` supports exploratory spatial data analysis
-* `spreg` implements spatial econometric models
-* `mapclassify` provides classification schemes for choropleth mapping
+* `esda` supports exploratory spatial data analysis, segregation, inequality, geographical dynamics, point patterns, and morphometrics
+* `model` implements spatial econometric models, geographically weighted regression, spatial accessibility, spatial optimization, and geographically weighted machine learning
+* `viz` provides classification schemes for choropleth mapping
+
+
+
+Within this ecosystem, **`tobler`** occupies a critical niche by providing the data integration and interpolation methods necessary to harmonize datasets before analysis in the **explore** or **model** phases.
 
 `tobler` complements these packages by addressing the specific problem of spatial data transformation between incompatible zonal systems.
 
@@ -109,7 +119,7 @@ Compared to desktop GIS platforms, `tobler` offers several advantages:
 * **Extensibility**: Users can modify or extend algorithms for research purposes
 * **Integration**: Interpolation can be embedded within larger data science pipelines, including machine learning and statistical modeling
 
-While similar functionality exists in other ecosystems (e.g., R packages such as `areal` or `sf`-based workflows), `tobler` provides a native solution for Python users, aligning with the growing adoption of Python in geospatial and data science communities.
+While similar functionality exists in other ecosystems (e.g., R packages such as `areal` [@Preneretal2019] or `sf`-based workflows [@RJ-2018-009]), `tobler` provides a native solution for Python users, aligning with the growing adoption of Python in geospatial and data science communities.
 
 # Software design
 
@@ -202,6 +212,9 @@ No generative AI or LLMs were used for code production for `tobler` or the writi
 # Acknowledgements
 
 `tobler` is developed as part of the PySAL community, which brings together researchers and developers working on spatial analysis methods and software. The project builds on decades of research in areal interpolation, dasymetric mapping, and spatial data science, and benefits from contributions across the open-source geospatial community.
+
+Funding from National Science Foundation Grants [2345820](https://www.nsf.gov/awardsearch/show-award/?AWD_ID=2345820) and
+[1831615](https://www.nsf.gov/awardsearch/show-award/?AWD_ID=1831615&HistoricalAwards=false) have supported `tobler` development.
 
 The following acknowledgement applies to James D. Gaboardi:
 
