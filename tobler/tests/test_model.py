@@ -1,8 +1,6 @@
 """test interpolation functions."""
 
-import pytest
 import rasterio
-from rasterstats.io import NodataWarning
 
 from tobler.model import glm
 
@@ -10,14 +8,10 @@ from tobler.model import glm
 def test_glm_poisson(datasets):
     with rasterio.Env(AWS_NO_SIGN_REQUEST="YES"):
         sac1, sac2 = datasets
-        with pytest.warns(
-            NodataWarning,
-            match="Setting nodata to -999; specify nodata explicitly",
-        ):
-            glm_poisson = glm(
-                source_df=sac2,
-                target_df=sac1,
-                variable="POP2001",
-                raster="s3://spatial-ucr/nlcd/landcover/nlcd_landcover_2011.tif",
-            )
+        glm_poisson = glm(
+            source_df=sac2,
+            target_df=sac1,
+            extensive_variable="POP2001",
+            raster="s3://spatial-ucr/nlcd/landcover/nlcd_landcover_2011.tif",
+        )
     assert glm_poisson.POP2001.sum() > 1469000
