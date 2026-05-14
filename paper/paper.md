@@ -203,7 +203,7 @@ In spatial data science education, `tobler` has become an integral part of  many
 
 **I took some liberty with a couple of these...we might want to check with Luc and Levi**
 
-In the public sector, the `tobler` package is used as part of a processing pipeline that powers urban planning and policymaking, including two highly visible projects from the Turing Institute, [DemoLand](https://www.turing.ac.uk/research/research-projects/demoland) and [UrbanGrammar](https://www.turing.ac.uk/research/research-projects/urban-grammar). **Martin/Dani could you confirm and add a sentence or two?**?
+In the public sector, the `tobler` package is used as part of a processing pipeline that powers urban planning and policymaking, including the  [DemoLand](https://www.turing.ac.uk/research/research-projects/demoland) project from the Alan Turing Institute, developed as a part of the British National Land Data Programme. The projects develops nation-wide predictive modelling based on data interpolated to a unified hexagonal grid.
 
 # AI usage disclosure
 
