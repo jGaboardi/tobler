@@ -82,11 +82,11 @@ As part of the Python Spatial Analysis Library (PySAL) ecosystem [@pysal2007;@re
 
 # Statement of need
 
-Spatial data are frequently aggregated to arbitrary or administratively defined units, such as census tracts, ZIP codes, or political boundaries. These units often change over time or differ across datasets, creating substantial challenges for longitudinal analysis, data integration, and cross-scale comparison. Analysts are therefore routinely required to transfer variables from one set of spatial units to another, a process complicated by partial overlaps, mismatched boundaries, and differences in spatial resolution. This problem is especially frequent in the social and behavioral sciences, where data sources like surveys (e.g. the Census) are published as aggregate statistics within a set of geographically-referenced polygons. While there are methods and Python packages for conducting *continuous* spatial interpolation, commonly applied in the Earth sciences and physical Geography--including examples like `PyKrige` [@benjamin_murphy_2025_17372225] or `pyinterpolate` [@molinski2022PyinterpolateSpatial]--such methods are inappropriate for interpolating data between discrete zoning systems.
+Spatial data are frequently aggregated to arbitrary or administratively defined units, such as census tracts, ZIP codes, or political boundaries. These units often change over time or differ across datasets, creating substantial challenges for longitudinal analysis, data integration, and cross-scale comparison. Analysts are therefore routinely required to transfer variables from one set of spatial units to another, a process complicated by partial overlaps, mismatched boundaries, and differences in spatial resolution. This problem is especially frequent in the social and behavioral sciences, where data sources like surveys (e.g. the U.S. Census) are published as aggregate statistics within a set of geographically-referenced polygons. While there are methods and Python packages for conducting *continuous* spatial interpolation, commonly applied in the Earth sciences and physical Geography--including examples like `PyKrige` [@benjamin_murphy_2025_17372225] or `pyinterpolate` [@molinski2022PyinterpolateSpatial]--such methods are inappropriate for interpolating data between discrete zoning systems.
 
 Traditional GIS software (e.g., ArcGIS, QGIS) provides tools for areal interpolation, but these implementations are often embedded in graphical interfaces, limiting reproducibility and automation. Moreover, they may not expose the full range of methodological options or allow for easy integration into data science pipelines.
 
-In the Python ecosystem, prior to `tobler`, support for areal interpolation was fragmented or limited. While foundational libraries such as GeoPandas provide data structures and geometric operations, they do not natively implement interpolation methods. As a result, users often relied on ad hoc scripts or external tools, leading to inconsistent workflows and potential methodological errors.
+In the Python ecosystem, prior to `tobler`, support for areal interpolation was fragmented or limited. While foundational libraries such as GeoPandas provide data structures and geometric operations, they do not natively implement interpolation methods. As a result, users often relied on *ad hoc* scripts or external tools, leading to inconsistent workflows and potential methodological errors.
 
 `tobler` addresses these challenges by providing:
 
@@ -101,12 +101,10 @@ These capabilities make `tobler` particularly valuable for researchers and pract
 
 `tobler` is a component of the PySAL ecosystem, which provides a comprehensive suite of tools for spatial analysis in Python. This ecosystem consists of four layers of related packages:
 
-* `libpysal` provides spatial weights, data structures, and foundational utilities
-* `esda` supports exploratory spatial data analysis, segregation, inequality, geographical dynamics, point patterns, and morphometrics
+* `libpysal` provides spatial weights, data structures, and foundational utilities [@libpysal-2026]
+* `explore` supports exploratory spatial data analysis, segregation, inequality, geographical dynamics, point patterns, and morphometrics
 * `model` implements spatial econometric models, geographically weighted regression, spatial accessibility, spatial optimization, and geographically weighted machine learning
 * `viz` provides classification schemes for choropleth mapping
-
-
 
 Within this ecosystem, **`tobler`** occupies a critical niche by providing the data integration and interpolation methods necessary to harmonize datasets before analysis in the **explore** or **model** phases.
 
@@ -123,7 +121,7 @@ While similar functionality exists in other ecosystems (e.g., R packages such as
 
 # Software design
 
-`tobler` is designed with attention to both computational efficiency and usability. Spatial overlay operations, which are central to areal interpolation, can be computationally intensive for large datasets. The package leverages vectorized operations and efficient geometric libraries (via GeoPandas and Shapely) to handle these tasks.
+`tobler` is designed with attention to both computational efficiency and usability. Spatial overlay operations, which are central to areal interpolation, can be computationally intensive for large datasets. The package leverages vectorized operations and efficient geometric libraries (via GeoPandas [@geopandas-2026] and Shapely [@shapely-2026]) to handle these tasks.
 
 The API design emphasizes clarity and consistency, with function signatures that explicitly distinguish between extensive and intensive variables. This reduces the likelihood of common errors in interpolation workflows and encourages best practices in spatial data handling.
 
@@ -186,7 +184,7 @@ result = masked_area_interpolate(
 )
 ```
 
-This approach assumes the user have a raster data of his own that can be read by rasterio^[A common example is the ones available at the [National Land Cover Database](https://www.mrlc.gov/national-land-cover-database-nlcd-2016).]. In this example, `tobler` allows a flexible approach where the user can pass which pixels are to be assumed inhabited through `pixel_values` resulting in a more realistic spatial distribution. Similarly, the user can execute a model-based approach using the `tobler.model.glm` function.
+This approach assumes the user have a raster data of his own that can be read by `rasterio`^[A common example is the ones available at the [National Land Cover Database](https://www.mrlc.gov/national-land-cover-database-nlcd-2016).]. In this example, `tobler` allows a flexible approach where the user can pass which pixels are to be assumed inhabited through `pixel_values` resulting in a more realistic spatial distribution. Similarly, the user can execute a model-based approach using the `tobler.model.glm` function.
 
 \autoref{fig:emp_male_maps} illustrates an example comparing interpolated values derived from different spatial configurations, highlighting how results may vary depending on the underlying geometry and interpolation approach.
 
@@ -196,7 +194,7 @@ This approach assumes the user have a raster data of his own that can be read by
 
 The package is actively used by the research community to transfer the data between various types of geographic boundaries. This is not limited to specific applications but covers use cases from continental analysis of emissions and health [@laporta2024Urban], analysis of urban form and function [@fleischmann2022Geographical], redistribution of census data to school districts for assessment of the Clean School Bus Rebate Program [@osia2025Infrastructure], quantification of radon exposure [@lee2026QuantifyingMean], or harmonization of vector and raster data for computer vision tasks [@fleischmann2024Decoding].
 
-Moreover, the package is relied on in downstream software as `atlasbr` for harmonization of Brazilian urban data [@oliveira_paiva_neto_atlasbr], and is referred to in the `pygridmap` package by Eurostat [@grazzini_gaffuri_pygridmap] as a reference implementation.
+Moreover, the package is relied on in downstream software such as `atlasbr` for harmonization of Brazilian urban data [@oliveira_paiva_neto_atlasbr], and is referred to in the `pygridmap` package by Eurostat [@grazzini_gaffuri_pygridmap] as a reference implementation.
 The `tobler` package has made tangible contributions to spatial science, pedagogy, and applications in government and industry. In academia, the package is used as part of a data-processing pipeline for research that examines the spatial-contextual influence on a variety of outcomes, including segregation [@wei2022ReducingRacial], housing policy [@rey2022LegacyRedlining], education policy [@rey2024MeasuringSpatial; @osia2025Infrastructure], and pollution exposure [@lee2026QuantifyingMean; @laporta2024Urban]. It is also used in environmental science [@hu2023MethodologicalChallenges] and regionalization research [@feng2022MaxpcompactregionsProblem].
 
 In spatial data science education, `tobler` has become an integral part of  many curricula. It is included in popular pedagogical resources, including two textbooks [@reyGeographicDataScience2023; @knaapUrbanAnalysis2026], and is taught in graduate and undergraduate courses in universities across the globe, including the University of California (Berkeley, Irvine, Riverside, and Santa Barbara campuses), San Diego State University, Charles University, University of Liverpool,  Northern Arizona University, and Temple University, among others.
