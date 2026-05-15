@@ -86,7 +86,7 @@ Spatial data are frequently aggregated to arbitrary or administratively defined 
 
 Traditional GIS software (e.g., ArcGIS, QGIS) provides tools for areal interpolation, but these implementations are often embedded in graphical interfaces, limiting reproducibility and automation. Moreover, they may not expose the full range of methodological options or allow for easy integration into data science pipelines.
 
-In the Python ecosystem, prior to `tobler`, support for areal interpolation was fragmented or limited. While foundational libraries such as GeoPandas provide data structures and geometric operations, they do not natively implement interpolation methods. As a result, users often relied on *ad hoc* scripts or external tools, leading to inconsistent workflows and potential methodological errors.
+Prior to `tobler`, the Python ecosystem support for areal interpolation was fragmented or limited. While foundational libraries such as GeoPandas provide data structures and geometric operations, they do not natively implement interpolation methods. As a result, users often relied on *ad hoc* scripts or external tools, leading to inconsistent workflows and potential methodological errors.
 
 `tobler` addresses these challenges by providing:
 
@@ -145,7 +145,7 @@ Dasymetric interpolation refines area-weighted approaches by incorporating ancil
 
 ### Model-based interpolation
 
-Beyond deterministic approaches, `tobler` includes model-based methods that use statistical or machine learning techniques to estimate spatial distributions. These approaches can incorporate covariates and capture more complex spatial patterns, providing improved accuracy in many contexts [@flowerdew1992DevelopmentsAreal; @flowerdewMethodFittingGravity1982].
+Beyond deterministic approaches, `tobler` includes model-based methods that use statistical or machine learning techniques to estimate spatial distributions. These approaches incorporate covariates and capture more complex spatial patterns, providing improved accuracy in many contexts [@flowerdew1992DevelopmentsAreal; @flowerdewMethodFittingGravity1982].
 
 The design of `tobler` allows these methods to be extended and customized, making the package a useful platform for methodological research in spatial interpolation.
 
@@ -155,7 +155,7 @@ All core functions in `tobler` operate directly on GeoPandas GeoDataFrames, mini
 
 ## Example workflow
 
-A typical area-weighted interpolation in `tobler` can be implemented as follows:
+A typical area-weighted interpolation in `tobler` is implemented as follows:
 
 ```python
 from tobler.area_weighted import area_interpolate
@@ -188,11 +188,11 @@ This approach assumes the user have a raster data of his own that can be read by
 
 \autoref{fig:emp_male_maps} illustrates an example comparing interpolated values derived from different spatial configurations, highlighting how results may vary depending on the underlying geometry and interpolation approach.
 
-![Example of `tobler` usage for an extensive variable (male employment population) in Charleston, SC, comparing census tracts and ZCTAs.\label{fig:emp_male_maps}](figs/emp_male_maps.png)
+![Example of `tobler` usage for an extensive variable (employed male population) in Charleston, SC, comparing census tracts and ZCTAs.\label{fig:emp_male_maps}](figs/emp_male_maps.png)
 
 # Research impact statement
 
-The package is actively used by the research community to transfer the data between various types of geographic boundaries. This is not limited to specific applications but covers use cases from continental analysis of emissions and health [@laporta2024Urban], analysis of urban form and function [@fleischmann2022Geographical], redistribution of census data to school districts for assessment of the Clean School Bus Rebate Program [@osia2025Infrastructure], quantification of radon exposure [@lee2026QuantifyingMean], or harmonization of vector and raster data for computer vision tasks [@fleischmann2024Decoding].
+The package is actively used by the research community to transfer the data between various types of geographic boundaries. This is not limited to specific applications but covers use cases from continental analysis of emissions and health [@laporta2024Urban], analysis of urban form and function [@fleischmann2022Geographical], redistribution of census data to school districts for assessment of the Clean School Bus Rebate Program [@osia2025Infrastructure], quantification of radon exposure [@lee2026QuantifyingMean], and harmonization of vector and raster data for computer vision tasks [@fleischmann2024Decoding].
 
 Moreover, the package is relied on in downstream software such as `atlasbr` for harmonization of Brazilian urban data [@oliveira_paiva_neto_atlasbr], and is referred to in the `pygridmap` package by Eurostat [@grazzini_gaffuri_pygridmap] as a reference implementation.
 The `tobler` package has made tangible contributions to spatial science, pedagogy, and applications in government and industry. In academia, the package is used as part of a data-processing pipeline for research that examines the spatial-contextual influence on a variety of outcomes, including segregation [@wei2022ReducingRacial], housing policy [@rey2022LegacyRedlining], education policy [@rey2024MeasuringSpatial; @osia2025Infrastructure], and pollution exposure [@lee2026QuantifyingMean; @laporta2024Urban]. It is also used in environmental science [@hu2023MethodologicalChallenges] and regionalization research [@feng2022MaxpcompactregionsProblem].
