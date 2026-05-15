@@ -99,7 +99,7 @@ These capabilities make `tobler` particularly valuable for researchers and pract
 
 # State of the field
 
-`tobler` is a component of the PySAL ecosystem, which provides a comprehensive suite of tools for spatial analysis in Python. This ecosystem consists of four layers of related packages:
+`tobler` is a component of the PySAL ecosystem [@pysal-2026], which provides a comprehensive suite of tools for spatial analysis in Python. This ecosystem consists of four layers of related packages:
 
 * `libpysal` provides spatial weights, data structures, and foundational utilities [@libpysal-2026]
 * `explore` supports exploratory spatial data analysis, segregation, inequality, geographical dynamics, point patterns, and morphometrics
