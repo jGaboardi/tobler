@@ -10,6 +10,7 @@
 ![Conda (channel only)](https://img.shields.io/conda/vn/conda-forge/tobler)
 ![GitHub commits since latest release (branch)](https://img.shields.io/github/commits-since/pysal/tobler/latest)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3386576.svg)](https://doi.org/10.5281/zenodo.3386576)
+[![Discord](https://img.shields.io/badge/Discord-join%20chat-7289da?style=flat&logo=discord&logoColor=cccccc&link=https://discord.gg/he6Y8D2ap3)](https://discord.gg/he6Y8D2ap3)
 
 `tobler` is a python package for areal interpolation, dasymetric mapping, change of
 support, and small area estimation. It provides a suite of tools with a simple interface
