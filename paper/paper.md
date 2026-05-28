@@ -199,7 +199,7 @@ The `tobler` package has made tangible contributions to spatial science, pedagog
 
 In spatial data science education, `tobler` has become an integral part of  many curricula. It is included in popular pedagogical resources, including two textbooks [@reyGeographicDataScience2023; @knaapUrbanAnalysis2026], and is taught in graduate and undergraduate courses in universities across the globe, including the University of California (Berkeley, Irvine, Riverside, and Santa Barbara campuses), San Diego State University, Charles University, University of Liverpool,  Northern Arizona University, and Temple University, among others.
 
-In the public sector, the `tobler` package is used as part of a processing pipeline that powers urban planning and policymaking, including the  [DemoLand](https://www.turing.ac.uk/research/research-projects/demoland) project from the Alan Turing Institute, developed as a part of the British National Land Data Programme. The projects develops nation-wide predictive modelling based on data interpolated to a unified hexagonal grid.
+In the public sector, the `tobler` package is used as part of a processing pipeline that powers urban planning and policymaking, including the  [DemoLand](https://www.turing.ac.uk/research/research-projects/demoland) project from the Alan Turing Institute, developed as a part of the British National Land Data Programme [@geospatialcommission2023]. The project piloted predictive modelling based on data interpolated to a unified hexagonal grid and is scaling the approach nation-wide.
 
 # AI usage disclosure
 
@@ -215,5 +215,10 @@ Funding from National Science Foundation Grants [2345820](https://www.nsf.gov/aw
 The following acknowledgement applies to James D. Gaboardi:
 
 > This manuscript has been authored in part by UT-Battelle LLC under contract DE-AC05-00OR22725 with the US Department of Energy (DOE). The US government retains and the publisher, by accepting the article for publication, acknowledges that the US government retains a nonexclusive, paid-up, irrevocable worldwide license to publish or reproduce the published form of this manuscript, or allow others to do so, for US government purposes. DOE will provide public access to these results of federally sponsored research in accordance with the DOE Public Access Plan (http://energy.gov/downloads/doe-public-access-plan).
+
+The following acknowledgement applies to Daniel Arribas-Bel and Martin
+Fleischmann:
+
+> Funding is acknowledged from UK Research and Innovation (UKRI) through the Economic and Social Research Council's grant “Learning an urban grammar from satellite data through AI”, project reference (ES/ T005238/1).
 
 # References
